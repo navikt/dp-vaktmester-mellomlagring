@@ -28,22 +28,16 @@ internal class Vaktmester(rapidsConnection: RapidsConnection, private val mellom
         val ident = packet.ident()
         val soknaId = packet.søknadUuid()
         runBlocking {
-            kotlin.runCatching {
-                mellomlagringClient.list(soknaId, ident)
-                    .also { logg.info { "Skal slette ${it.size} filer for søknad: $soknaId " } }
-                    .forEach { r ->
-                        mellomlagringClient.slett(r.urn, ident).also {
-                            logg.info { "Slettet fil: ${r.filnavn}" }
-                        }
-                    }
-            }.fold(
-                onSuccess = {},
-                onFailure = {
-                    logg.error(it) {
-                        "Feil ved sletting av filer for søknadId: $soknaId"
-                    }
+            mellomlagringClient.list(soknaId, ident)
+                .onFailure { logg.error(it) { "Feil i henting av filer for $soknaId" } }
+                .onSuccess { logg.info { "Skal slette ${it.size} filer for søknad: $soknaId " } }
+                .getOrThrow()
+                .forEach { fil ->
+                    mellomlagringClient.slett(fil.urn(), ident)
+                        .onFailure { logg.error(it) { "Kunne ikke slette $fil" } }
+                        .onSuccess { logg.info { "Slettet fil $fil" } }
+                        .getOrThrow()
                 }
-            )
         }
     }
 

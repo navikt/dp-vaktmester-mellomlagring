@@ -35,6 +35,8 @@ dependencies {
     implementation("de.slub-dresden:urnlib:2.0.1")
 
     testImplementation(kotlin("test"))
+    testImplementation(KoTest.assertions)
+    testImplementation(Ktor2.Client.library("mock"))
 }
 
 tasks.withType<Test> {
