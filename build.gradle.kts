@@ -13,7 +13,7 @@ repositories {
 }
 
 application {
-    mainClass.set("no.nav.dagpenger.SERVICENAME")
+    mainClass.set("no.nav.dagpenger.vaktmester.mellomlagring.AppKt")
 }
 
 kotlin {
@@ -23,10 +23,16 @@ kotlin {
 }
 
 dependencies {
-    implementation(RapidAndRivers)
+    implementation(RapidAndRiversKtor2)
 
     implementation(Konfig.konfig)
     implementation(Kotlin.Logging.kotlinLogging)
+    implementation("com.github.navikt.dp-biblioteker:oauth2-klient:2022.05.30-09.37.623ee13a49dd")
+    implementation(Ktor2.Client.library("logging"))
+    implementation(Ktor2.Client.library("cio"))
+    implementation(Ktor2.Client.library("content-negotiation"))
+    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
+    implementation("de.slub-dresden:urnlib:2.0.1")
 
     testImplementation(kotlin("test"))
 }

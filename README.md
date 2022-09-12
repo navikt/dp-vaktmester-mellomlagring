@@ -1,10 +1,10 @@
-# Dagpenger-SERVICENAME
+# dp-vaktmester-mellomlagring
 
 ## Komme i gang
 
 Gradle brukes som byggverktøy og er bundlet inn.
 
-`./gradlew build`
+`./gradlew kt && ./gradlew build`
 
 ## Sjekkliste for ny app
 1. Bytt navn på app i nais.yaml, settings.gradle og dockerfile.

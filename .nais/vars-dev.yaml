@@ -1,0 +1,2 @@
+KAFKA_POOL: nav-dev
+DP_MELLOMLAGRING_SCOPE: "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default"
