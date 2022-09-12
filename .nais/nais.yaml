@@ -8,6 +8,10 @@ metadata:
 spec:
   image: {{ image }}
   port: 8080
+  liveness:
+    path: /isalive
+  readiness:
+    path: /isready
   prometheus:
     enabled: true
     path: /metrics
