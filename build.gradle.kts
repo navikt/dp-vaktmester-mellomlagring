@@ -37,6 +37,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(KoTest.assertions)
     testImplementation(Ktor2.Client.library("mock"))
+    testImplementation(Mockk.mockk)
 }
 
 tasks.withType<Test> {

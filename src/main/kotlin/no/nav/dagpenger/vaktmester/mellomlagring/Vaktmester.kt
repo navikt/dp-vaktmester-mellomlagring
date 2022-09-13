@@ -12,14 +12,11 @@ internal class Vaktmester(rapidsConnection: RapidsConnection, private val mellom
     River.PacketListener {
     companion object {
         private val logg = KotlinLogging.logger {}
-        const val BEHOV = "HUBBA" // todo
     }
 
     init {
         River(rapidsConnection).apply {
-            validate { it.demandValue("@event_name", "behov") }
-            validate { it.demandAll("@behov", listOf(BEHOV)) }
-            validate { it.rejectKey("@løsning") }
+            validate { it.demandValue("@event_name", "søknad_slettet") }
             validate { it.requireKey("søknad_uuid", "ident") }
         }.register(this)
     }
