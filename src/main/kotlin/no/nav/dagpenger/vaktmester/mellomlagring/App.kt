@@ -14,7 +14,7 @@ internal object App : RapidsConnection.StatusListener {
         rapidsConnection.register(this)
         Vaktmester(
             rapidsConnection = rapidsConnection,
-            mellomlagringClient = MelllomlagringHttpClient(
+            mellomlagringClient = MellomlagringHttpClient(
                 baseUrl = Configuration.dpMellomlagringBaseUrl,
                 azureAdTokenProvider = Configuration.mellomlagringTokenSupplier,
             )

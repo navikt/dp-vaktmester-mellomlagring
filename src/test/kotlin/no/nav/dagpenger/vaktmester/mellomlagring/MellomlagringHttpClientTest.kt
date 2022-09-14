@@ -14,7 +14,7 @@ import no.nav.dagpenger.vaktmester.mellomlagring.MellomlagringClient.FilMetadata
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
-internal class MelllomlagringHttpClientTest {
+internal class MellomlagringHttpClientTest {
     private val testTokenSupplier = { "testToken" }
     private val baseUrl = "http://baseulr"
     private val uuid = UUID.randomUUID()
@@ -23,7 +23,7 @@ internal class MelllomlagringHttpClientTest {
     @Test
     fun `riktig kall til mellomlagring og håndtering av OK svar`() {
         runBlocking {
-            MelllomlagringHttpClient(
+            MellomlagringHttpClient(
                 baseUrl, testTokenSupplier,
                 MockEngine { request ->
                     request.url.toString() shouldBe "$baseUrl/$uuid"
@@ -51,7 +51,7 @@ internal class MelllomlagringHttpClientTest {
     @Test
     fun `Riktig slett kall til mellomlagring og håndtering av OK svar`() {
         runBlocking {
-            MelllomlagringHttpClient(
+            MellomlagringHttpClient(
                 baseUrl, testTokenSupplier,
                 MockEngine { request ->
                     request.url.toString() shouldBe "$baseUrl/$uuid/hubba"
@@ -74,10 +74,10 @@ internal class MelllomlagringHttpClientTest {
     @Test
     fun `Håndtering av feil situasjoner`() {
         runBlocking {
-            MelllomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
+            MellomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
                 .list(uuid, testIdent).isFailure shouldBe true
 
-            MelllomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
+            MellomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
                 .slett(URN.rfc8141().parse("urn:ns:nss"), testIdent).isFailure shouldBe true
         }
     }

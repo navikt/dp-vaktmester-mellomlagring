@@ -33,7 +33,7 @@ internal interface MellomlagringClient {
     }
 }
 
-internal class MelllomlagringHttpClient(
+internal class MellomlagringHttpClient(
     private val baseUrl: String,
     private val azureAdTokenProvider: () -> String,
     engine: HttpClientEngine = CIO.create()
