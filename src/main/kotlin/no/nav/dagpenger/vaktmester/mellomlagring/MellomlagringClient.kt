@@ -21,8 +21,15 @@ import no.nav.dagpenger.vaktmester.mellomlagring.MellomlagringClient.FilMetadata
 import java.util.UUID
 
 internal interface MellomlagringClient {
-    suspend fun list(soknaId: UUID, ident: String): Result<List<FilMetadata>>
-    suspend fun slett(urn: URN, ident: String): Result<Unit>
+    suspend fun list(
+        soknaId: UUID,
+        ident: String,
+    ): Result<List<FilMetadata>>
+
+    suspend fun slett(
+        urn: URN,
+        ident: String,
+    ): Result<Unit>
 
     data class FilMetadata(
         val filnavn: String,
@@ -36,32 +43,36 @@ internal interface MellomlagringClient {
 internal class MellomlagringHttpClient(
     private val baseUrl: String,
     private val azureAdTokenProvider: () -> String,
-    engine: HttpClientEngine = CIO.create()
+    engine: HttpClientEngine = CIO.create(),
 ) : MellomlagringClient {
     companion object {
         private val logger = KotlinLogging.logger {}
     }
 
-    private val httpClient = HttpClient(engine) {
-        expectSuccess = true
-        defaultRequest {
-            header("Authorization", "Bearer ${azureAdTokenProvider.invoke()}")
-        }
-        install(ContentNegotiation) {
-            jackson {
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    private val httpClient =
+        HttpClient(engine) {
+            expectSuccess = true
+            defaultRequest {
+                header("Authorization", "Bearer ${azureAdTokenProvider.invoke()}")
+            }
+            install(ContentNegotiation) {
+                jackson {
+                    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                }
+            }
+            install(Logging) {
+                level = LogLevel.INFO
             }
         }
-        install(Logging) {
-            level = LogLevel.INFO
-        }
-    }
 
     private fun HttpRequestBuilder.addXEierHeader(eier: String) {
         this.header("X-Eier", eier)
     }
 
-    override suspend fun list(soknaId: UUID, ident: String): Result<List<FilMetadata>> {
+    override suspend fun list(
+        soknaId: UUID,
+        ident: String,
+    ): Result<List<FilMetadata>> {
         val url = "$baseUrl/$soknaId"
         return kotlin.runCatching {
             httpClient.get(url) {
@@ -70,7 +81,10 @@ internal class MellomlagringHttpClient(
         }.onFailure { logger.error(it) { "Feilet GET mot $url" } }
     }
 
-    override suspend fun slett(urn: URN, ident: String): Result<Unit> {
+    override suspend fun slett(
+        urn: URN,
+        ident: String,
+    ): Result<Unit> {
         val url = "$baseUrl/${urn.namespaceSpecificString()}"
         return kotlin.runCatching {
             httpClient.delete(url) { addXEierHeader(eier = ident) }

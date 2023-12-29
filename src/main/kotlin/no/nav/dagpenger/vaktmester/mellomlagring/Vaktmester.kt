@@ -21,7 +21,10 @@ internal class Vaktmester(rapidsConnection: RapidsConnection, private val mellom
         }.register(this)
     }
 
-    override fun onPacket(packet: JsonMessage, context: MessageContext) {
+    override fun onPacket(
+        packet: JsonMessage,
+        context: MessageContext,
+    ) {
         val ident = packet.ident()
         val soknaId = packet.søknadUuid()
         runBlocking {
@@ -39,5 +42,6 @@ internal class Vaktmester(rapidsConnection: RapidsConnection, private val mellom
     }
 
     private fun JsonMessage.ident() = this["ident"].asText()
+
     private fun JsonMessage.søknadUuid(): UUID = this["søknad_uuid"].asText().let { UUID.fromString(it) }
 }

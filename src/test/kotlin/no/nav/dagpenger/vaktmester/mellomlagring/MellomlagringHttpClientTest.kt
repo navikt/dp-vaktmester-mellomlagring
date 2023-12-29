@@ -24,7 +24,8 @@ internal class MellomlagringHttpClientTest {
     fun `riktig kall til mellomlagring og håndtering av OK svar`() {
         runBlocking {
             MellomlagringHttpClient(
-                baseUrl, testTokenSupplier,
+                baseUrl,
+                testTokenSupplier,
                 MockEngine { request ->
                     request.url.toString() shouldBe "$baseUrl/$uuid"
                     request.headers[HttpHeaders.Authorization] shouldBe "Bearer ${testTokenSupplier.invoke()}"
@@ -32,18 +33,21 @@ internal class MellomlagringHttpClientTest {
                     request.method shouldBe HttpMethod.Get
 
                     respond(
-                        content = """[
+                        content =
+                            """[
                         {"filnavn": "filnavn1", "urn": "urn:vedlegg:id/sub/uuid1" },
                         {"filnavn": "filnavn2", "urn": "urn:vedlegg:id/sub/uuid2" }
-                        ]""".trimMargin(),
-                        headers = headersOf(HttpHeaders.ContentType, "application/json")
+                        ]
+                            """.trimMargin(),
+                        headers = headersOf(HttpHeaders.ContentType, "application/json"),
                     )
-                }
+                },
             ).list(uuid, testIdent).getOrThrow().let {
-                it shouldBe listOf(
-                    FilMetadata("filnavn1", "urn:vedlegg:id/sub/uuid1"),
-                    FilMetadata("filnavn2", "urn:vedlegg:id/sub/uuid2"),
-                )
+                it shouldBe
+                    listOf(
+                        FilMetadata("filnavn1", "urn:vedlegg:id/sub/uuid1"),
+                        FilMetadata("filnavn2", "urn:vedlegg:id/sub/uuid2"),
+                    )
             }
         }
     }
@@ -60,13 +64,13 @@ internal class MellomlagringHttpClientTest {
                     request.method shouldBe HttpMethod.Delete
 
                     respond(content = "", HttpStatusCode.NoContent)
-                }
+                },
             ).slett(
                 FilMetadata(
                     urnString = "urn:vedlegg:$uuid/hubba",
-                    filnavn = ""
+                    filnavn = "",
                 ).urn(),
-                testIdent
+                testIdent,
             ).getOrThrow() shouldBe Unit
         }
     }

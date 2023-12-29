@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import java.util.UUID
 
 internal class VaktmesterTest {
-
     private val testRapid = TestRapid()
     private val uuid = UUID.randomUUID()
     private val testIdent = "123"
@@ -18,25 +17,28 @@ internal class VaktmesterTest {
 
     @Test
     fun `Skal håndtere pakker som oppfyller krav`() {
-        val mellomlagringClientMock = mockk<MellomlagringClient>().also {
-            coEvery { it.list(uuid, testIdent) } returns Result.success(
-                listOf(
-                    FilMetadata(
-                        "filnavn1",
-                        "urn:vedlegg:filnavn1"
+        val mellomlagringClientMock =
+            mockk<MellomlagringClient>().also {
+                coEvery { it.list(uuid, testIdent) } returns
+                    Result.success(
+                        listOf(
+                            FilMetadata(
+                                "filnavn1",
+                                "urn:vedlegg:filnavn1",
+                            ),
+                        ),
                     )
-                )
-            )
-            coEvery { it.slett(urn, testIdent) } returns Result.success(Unit)
-        }
+                coEvery { it.slett(urn, testIdent) } returns Result.success(Unit)
+            }
         Vaktmester(rapidsConnection = testRapid, mellomlagringClient = mellomlagringClientMock).also {
             testRapid.sendTestMessage(
-                """ {
-   "@event_name": "søknad_slettet",
-   "søknad_uuid": "$uuid",
-   "ident": "$testIdent"
- } 
-                """.trimIndent()
+                """
+                 {
+                  "@event_name": "søknad_slettet",
+                  "søknad_uuid": "$uuid",
+                  "ident": "$testIdent"
+                } 
+                """.trimIndent(),
             )
         }
 
