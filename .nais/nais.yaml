@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamdagpenger
 spec:
-  image: {{ image }}
+  image: "{{ image }}"
   port: 8080
   liveness:
     path: /isalive
@@ -19,7 +19,7 @@ spec:
     min: 1
     max: 1
   kafka:
-    pool: {{ KAFKA_POOL }}
+    pool: "{{ KAFKA_POOL }}"
   resources:
     limits:
       cpu: 500m
@@ -38,4 +38,4 @@ spec:
         - application: dp-mellomlagring
   env:
     - name: DP_MELLOMLAGRING_SCOPE
-      value: {{ DP_MELLOMLAGRING_SCOPE }}
+      value: "{{ DP_MELLOMLAGRING_SCOPE }}"
