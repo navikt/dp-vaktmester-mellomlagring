@@ -16,12 +16,13 @@ dependencies {
 
     implementation(libs.konfig)
     implementation(libs.kotlin.logging)
-    implementation(libs.dp.biblioteker.oauth2.klient)
+    implementation("no.nav.dagpenger:oauth2-klient:2025.04.26-14.51.bbf9ece5f5ec")
     implementation(libs.bundles.ktor.client)
     implementation(libs.ktor.serialization.jackson)
     implementation("de.slub-dresden:urnlib:2.0.1")
 
     testImplementation(kotlin("test"))
+    testImplementation(libs.rapids.and.rivers.test)
     testImplementation(libs.kotest.assertions.core)
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.mockk)

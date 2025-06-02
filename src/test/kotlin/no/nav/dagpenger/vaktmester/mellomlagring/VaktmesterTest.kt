@@ -1,11 +1,11 @@
 package no.nav.dagpenger.vaktmester.mellomlagring
 
+import com.github.navikt.tbd_libs.rapids_and_rivers.test_support.TestRapid
 import de.slub.urn.URN
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import no.nav.dagpenger.vaktmester.mellomlagring.MellomlagringClient.FilMetadata
-import no.nav.helse.rapids_rivers.testsupport.TestRapid
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
