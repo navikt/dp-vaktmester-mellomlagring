@@ -18,7 +18,7 @@ internal class Vaktmester(rapidsConnection: RapidsConnection, private val mellom
 
     init {
         River(rapidsConnection).apply {
-            validate { it.demandValue("@event_name", "søknad_slettet") }
+            precondition { it.requireValue("@event_name", "søknad_slettet") }
             validate { it.requireKey("søknad_uuid", "ident") }
         }.register(this)
     }

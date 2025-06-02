@@ -1,9 +1,9 @@
 package no.nav.dagpenger.vaktmester.mellomlagring
 
+import com.github.navikt.tbd_libs.rapids_and_rivers_api.RapidsConnection
 import mu.KotlinLogging
 import no.nav.dagpenger.vaktmester.mellomlagring.Configuration.APP_NAME
 import no.nav.helse.rapids_rivers.RapidApplication
-import no.nav.helse.rapids_rivers.RapidsConnection
 
 fun main() {
     App.start()
@@ -30,7 +30,6 @@ internal object App : RapidsConnection.StatusListener {
             throw e
         }
     }
-
 
     override fun onStartup(rapidsConnection: RapidsConnection) {
         logger.info { "Starter $APP_NAME" }
