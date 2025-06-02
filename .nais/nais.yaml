@@ -39,3 +39,11 @@ spec:
   env:
     - name: DP_MELLOMLAGRING_SCOPE
       value: "{{ DP_MELLOMLAGRING_SCOPE }}"
+  observability:
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
+    autoInstrumentation:
+      enabled: true
+      runtime: java
