@@ -1,5 +1,7 @@
 package no.nav.dagpenger.vaktmester.mellomlagring
 
+import mu.KotlinLogging
+import no.nav.dagpenger.vaktmester.mellomlagring.Configuration.APP_NAME
 import no.nav.helse.rapids_rivers.RapidApplication
 import no.nav.helse.rapids_rivers.RapidsConnection
 
@@ -10,16 +12,32 @@ fun main() {
 internal object App : RapidsConnection.StatusListener {
     private val rapidsConnection = RapidApplication.create(Configuration.config)
 
+    private val logger = KotlinLogging.logger { }
+
     init {
-        rapidsConnection.register(this)
-        Vaktmester(
-            rapidsConnection = rapidsConnection,
-            mellomlagringClient =
-                MellomlagringHttpClient(
-                    baseUrl = Configuration.dpMellomlagringBaseUrl,
-                    azureAdTokenProvider = Configuration.mellomlagringTokenSupplier,
-                ),
-        )
+        try {
+            rapidsConnection.register(this)
+            Vaktmester(
+                rapidsConnection = rapidsConnection,
+                mellomlagringClient =
+                    MellomlagringHttpClient(
+                        baseUrl = Configuration.dpMellomlagringBaseUrl,
+                        azureAdTokenProvider = Configuration.mellomlagringTokenSupplier,
+                    ),
+            )
+        } catch (e: Exception) {
+            logger.error(e) { "Kunne ikke initialisere $APP_NAME" }
+            throw e
+        }
+    }
+
+
+    override fun onStartup(rapidsConnection: RapidsConnection) {
+        logger.info { "Starter $APP_NAME" }
+    }
+
+    override fun onShutdown(rapidsConnection: RapidsConnection) {
+        logger.info { "Stopper $APP_NAME" }
     }
 
     fun start() = rapidsConnection.start()
