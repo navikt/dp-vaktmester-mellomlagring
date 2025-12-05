@@ -37,6 +37,8 @@ spec:
   accessPolicy:
     outbound:
       rules:
+        - application: logging
+          namespace: nais-system
         - application: dp-mellomlagring
   env:
     - name: DP_MELLOMLAGRING_SCOPE
