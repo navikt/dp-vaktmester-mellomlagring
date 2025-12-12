@@ -74,11 +74,13 @@ internal class MellomlagringHttpClient(
         ident: String,
     ): Result<List<FilMetadata>> {
         val url = "$baseUrl/$soknaId"
-        return kotlin.runCatching {
-            httpClient.get(url) {
-                addXEierHeader(ident)
-            }.body<List<FilMetadata>>()
-        }.onFailure { logger.error(it) { "Feilet GET mot $url" } }
+        return kotlin
+            .runCatching {
+                httpClient
+                    .get(url) {
+                        addXEierHeader(ident)
+                    }.body<List<FilMetadata>>()
+            }.onFailure { logger.error(it) { "Feilet GET mot $url" } }
     }
 
     override suspend fun slett(
@@ -86,10 +88,10 @@ internal class MellomlagringHttpClient(
         ident: String,
     ): Result<Unit> {
         val url = "$baseUrl/${urn.namespaceSpecificString()}"
-        return kotlin.runCatching {
-            httpClient.delete(url) { addXEierHeader(eier = ident) }
-            Unit
-        }
-            .onFailure { logger.error(it) { "Feilet DELETE mot $url" } }
+        return kotlin
+            .runCatching {
+                httpClient.delete(url) { addXEierHeader(eier = ident) }
+                Unit
+            }.onFailure { logger.error(it) { "Feilet DELETE mot $url" } }
     }
 }

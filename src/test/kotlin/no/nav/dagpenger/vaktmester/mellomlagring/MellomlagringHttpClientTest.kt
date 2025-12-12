@@ -56,7 +56,8 @@ internal class MellomlagringHttpClientTest {
     fun `Riktig slett kall til mellomlagring og håndtering av OK svar`() {
         runBlocking {
             MellomlagringHttpClient(
-                baseUrl, testTokenSupplier,
+                baseUrl,
+                testTokenSupplier,
                 MockEngine { request ->
                     request.url.toString() shouldBe "$baseUrl/$uuid/hubba"
                     request.headers[HttpHeaders.Authorization] shouldBe "Bearer ${testTokenSupplier.invoke()}"
@@ -79,10 +80,12 @@ internal class MellomlagringHttpClientTest {
     fun `Håndtering av feil situasjoner`() {
         runBlocking {
             MellomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
-                .list(uuid, testIdent).isFailure shouldBe true
+                .list(uuid, testIdent)
+                .isFailure shouldBe true
 
             MellomlagringHttpClient(baseUrl, testTokenSupplier, MockEngine { this.respondBadRequest() })
-                .slett(URN.rfc8141().parse("urn:ns:nss"), testIdent).isFailure shouldBe true
+                .slett(URN.rfc8141().parse("urn:ns:nss"), testIdent)
+                .isFailure shouldBe true
         }
     }
 }
