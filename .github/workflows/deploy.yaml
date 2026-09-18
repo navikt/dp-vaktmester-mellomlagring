@@ -1,10 +1,12 @@
 name: Build and deploy
 
 on:
+  merge_group: 
   workflow_dispatch:
   push:
     branches-ignore:
       - 'dependabot/**'
+      - 'renovate/**'
 
 jobs:
   build:
