@@ -1,7 +1,6 @@
 package no.nav.dagpenger.vaktmester.mellomlagring
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationMap
 import com.natpryce.konfig.ConfigurationProperties
@@ -14,7 +13,7 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
@@ -62,8 +61,7 @@ internal object Configuration {
             expectSuccess = true
             install(ContentNegotiation) {
                 jackson {
-                    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                    setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                    changeDefaultPropertyInclusion { it.withValueInclusion(JsonInclude.Include.NON_NULL) }
                 }
             }
             install(Logging) {
