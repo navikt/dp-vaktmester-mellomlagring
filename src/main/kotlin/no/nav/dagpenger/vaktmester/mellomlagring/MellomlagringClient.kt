@@ -1,7 +1,6 @@
 package no.nav.dagpenger.vaktmester.mellomlagring
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.DeserializationFeature
 import de.slub.urn.URN
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
@@ -16,7 +15,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import no.nav.dagpenger.vaktmester.mellomlagring.MellomlagringClient.FilMetadata
 import java.util.UUID
 
@@ -56,9 +55,7 @@ internal class MellomlagringHttpClient(
                 header("Authorization", "Bearer ${azureAdTokenProvider.invoke()}")
             }
             install(ContentNegotiation) {
-                jackson {
-                    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                }
+                jackson()
             }
             install(Logging) {
                 level = LogLevel.INFO

@@ -50,7 +50,7 @@ internal class Vaktmester(
         }
     }
 
-    private fun JsonMessage.ident() = this["ident"].asText()
+    private fun JsonMessage.ident() = this["ident"].asString()
 
-    private fun JsonMessage.søknadUuid(): UUID = this["søknad_uuid"].asText().let { UUID.fromString(it) }
+    private fun JsonMessage.søknadUuid(): UUID = this["søknad_uuid"].asString().let { UUID.fromString(it) }
 }

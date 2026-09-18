@@ -21,7 +21,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 tasks.test {
@@ -32,10 +32,6 @@ tasks.test {
         exceptionFormat = TestExceptionFormat.FULL
         events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
     }
-}
-
-ktlint {
-    version.set("1.5.0")
 }
 
 tasks.withType<KotlinCompile>().configureEach {
