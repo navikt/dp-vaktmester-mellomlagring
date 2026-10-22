@@ -16,7 +16,7 @@ dependencies {
 
     implementation(libs.konfig)
     implementation(libs.kotlin.logging)
-    implementation("no.nav.dagpenger:oauth2-klient:2026.10.21-18.19.6bb281e1bc34")
+    implementation("no.nav.dagpenger:oauth2-klient:2026.10.22-06.22.e2d33d69479c")
     implementation(libs.bundles.ktor.client)
     implementation(libs.ktor.serialization.jackson)
     implementation("de.slub-dresden:urnlib:3.0.0")
