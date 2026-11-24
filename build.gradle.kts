@@ -18,7 +18,7 @@ dependencies {
     implementation("no.nav.dagpenger:oauth2-klient:2026.11.12-12.16.6c115ef19241")
     implementation(libs.bundles.ktor.client)
     implementation(libs.ktor.serialization.jackson)
-    implementation("de.slub-dresden:urnlib:3.0.0")
+    implementation("de.slub-dresden:urnlib:4.0.0")
 
     testImplementation(kotlin("test"))
     testImplementation(libs.rapids.and.rivers.test)
